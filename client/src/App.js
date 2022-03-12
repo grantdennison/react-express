@@ -20,7 +20,26 @@ class App extends Component {
   }
 
   handleSubmit(event) {
-    alert("A name was submitted: " + this.state.value);
+    event.preventDefault();
+    const data = { username: this.state.value };
+    console.log("A name was submitted: " + data.username);
+
+    //Post to the server
+
+    fetch("http://localhost:3001/users", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   render() {
